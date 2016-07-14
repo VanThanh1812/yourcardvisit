@@ -72,8 +72,7 @@ public class Fragment_FormPreview extends Fragment {
     View.OnClickListener create=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Data_Info data_info=new Data_Info(txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
-            Data_Info data_image=new Data_Info();
+            Data_Info data_info=new Data_Info("idcard",txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
             FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
         }
     };
@@ -178,7 +177,7 @@ public class Fragment_FormPreview extends Fragment {
                 if (resultCode == getActivity().RESULT_OK) {
                     // Get the Uri of the selected file
                     Uri uri = data.getData();
-                    FirebaseData.create_Images_Card(StaticValues.TYPE_LOGO,StaticValues.idfacebook,uri);
+                    FirebaseData.create_Images_Card(getActivity(),StaticValues.TYPE_LOGO,StaticValues.idfacebook,uri);
                     //HienthiView.uri_congty=uri;
                     //url=uri.toString();
                     Log.d("vthanh", "File Uri: " + uri.toString());
@@ -213,7 +212,7 @@ public class Fragment_FormPreview extends Fragment {
                 if (resultCode == getActivity().RESULT_OK) {
                     // Get the Uri of the selected file
                     Uri uri = data.getData();
-                    FirebaseData.create_Images_Card(StaticValues.TYPE_BACKGROUND,StaticValues.idfacebook,uri);
+                    FirebaseData.create_Images_Card(getActivity(),StaticValues.TYPE_BACKGROUND,StaticValues.idfacebook,uri);
                     //HienthiView.uri_background=uri;
                     //url=uri.toString();
                     Log.d("vthanh", "File Uri: " + uri.toString());

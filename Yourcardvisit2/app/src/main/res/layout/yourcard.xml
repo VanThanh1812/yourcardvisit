@@ -24,7 +24,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:background="@android:drawable/sym_def_app_icon"
-            android:id="@+id/imgCongty"
+            android:id="@+id/your_imgCongty"
             android:layout_marginTop="8dp"/>
 
         <TextView
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Họ và tên"
-            android:id="@+id/textView2" />
+            android:id="@+id/your_name" />
 
         <TextView
             android:layout_marginLeft="15dp"
@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Công ty"
-            android:id="@+id/textView3" />
+            android:id="@+id/your_congty" />
 
         <TextView
             android:layout_marginLeft="15dp"
@@ -51,7 +51,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Chức vụ"
-            android:id="@+id/textView4" />
+            android:id="@+id/your_chucvu" />
 
         <TextView
             android:layout_marginLeft="15dp"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Email"
-            android:id="@+id/textView5" />
+            android:id="@+id/your_email" />
 
         <TextView
             android:layout_marginLeft="15dp"
@@ -69,7 +69,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Địa chỉ"
-            android:id="@+id/textView6" />
+            android:id="@+id/your_diachi" />
 
         <TextView
             android:layout_marginLeft="15dp"
@@ -78,6 +78,6 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Số điện thoại"
-            android:id="@+id/textView7" />
+            android:id="@+id/your_sodienthoai" />
     </LinearLayout>
 </LinearLayout>

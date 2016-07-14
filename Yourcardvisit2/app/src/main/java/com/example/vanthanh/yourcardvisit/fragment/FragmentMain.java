@@ -17,7 +17,7 @@ import com.example.vanthanh.yourcardvisit.staticvalues.StaticValues;
 public class FragmentMain extends android.app.Fragment {
     Button btnAddcard;
     Button btnListcard;
-    Button btnCreateCard;
+    Button btnCreateCard,btnMyCard;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +41,13 @@ public class FragmentMain extends android.app.Fragment {
             @Override
             public void onClick(View view) {
                 Func_fragment.setFragment(getActivity(),StaticValues.TAG_FRAGMENT_CREATE);
+            }
+        });
+        btnMyCard=(Button)v.findViewById(R.id.btnMyCard);
+        btnMyCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Func_fragment.setFragment(getActivity(),StaticValues.TAG_FRAGMENT_MYCARD);
             }
         });
         return v;

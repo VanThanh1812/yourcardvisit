@@ -69,5 +69,20 @@
              />
     </com.andexert.library.RippleView>
 
+    <com.andexert.library.RippleView
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        rv_centered="true">
+        <Button
+            android:textColor="#ffffff"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:text="My Card"
+            android:id="@+id/btnMyCard"
+            android:background="@drawable/font"
+            />
+    </com.andexert.library.RippleView>
 
 </LinearLayout>

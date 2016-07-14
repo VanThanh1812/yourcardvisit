@@ -19,7 +19,6 @@ public class Fragment_ListCard extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v=inflater.inflate(R.layout.fragment_listcard,null);
         gridView=(GridView)v.findViewById(R.id.gridView);
-        //setcard ccacs thu
         return v;
     }
 }
