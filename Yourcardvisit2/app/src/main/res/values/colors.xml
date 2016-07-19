@@ -5,4 +5,41 @@
     <color name="colorAccent">#FF4081</color>
     <color name="backgroundblue">#4285f4</color>
     <color name="textwhile">#f9f7f7</color>
+
+    <color name="automatic">#000000</color>
+
+    <color name="btn1">#0111fc</color>
+    <color name="btn11">#a1b3fe</color>
+    <color name="btn12">#97a1fe</color>
+    <color name="btn13">#607afb</color>
+    <color name="btn14">#4766fe</color>
+    <color name="btn15">#1f44fe</color>
+
+    <color name="btn2">#ff0000</color>
+    <color name="btn21">#febbbb</color>
+    <color name="btn22">#fe9797</color>
+    <color name="btn23">#fe6a6a</color>
+    <color name="btn24">#fe4747</color>
+    <color name="btn25">#ff1b1b</color>
+
+    <color name="btn3">#ffdd01</color>
+    <color name="btn31">#fbf2be</color>
+    <color name="btn32">#fbf19f</color>
+    <color name="btn33">#feec7b</color>
+    <color name="btn34">#fdd141</color>
+    <color name="btn35">#fbdd19</color>
+
+    <color name="btn4">#2bff00</color>
+    <color name="btn41">#c9febc</color>
+    <color name="btn42">#adfb9c</color>
+    <color name="btn43">#8cfb7b</color>
+    <color name="btn44">#64fb49</color>
+    <color name="btn45">#40fb1b</color>
+
+    <color name="btn5">#00f7ff</color>
+    <color name="btn51">#bdfefa</color>
+    <color name="btn52">#9ffefe</color>
+    <color name="btn53">#6ffafe</color>
+    <color name="btn54">#4bfdf7</color>
+    <color name="btn55">#1bf8fb</color>
 </resources>

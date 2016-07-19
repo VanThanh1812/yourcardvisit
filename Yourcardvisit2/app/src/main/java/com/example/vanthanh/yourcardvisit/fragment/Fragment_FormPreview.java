@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.example.vanthanh.yourcardvisit.R;
 import com.example.vanthanh.yourcardvisit.controls.FirebaseData;
+import com.example.vanthanh.yourcardvisit.controls.Func_fragment;
 import com.example.vanthanh.yourcardvisit.model.Data_Info;
 import com.example.vanthanh.yourcardvisit.staticvalues.StaticValues;
 
@@ -43,6 +44,16 @@ public class Fragment_FormPreview extends Fragment {
     View v;
     String link_logo=null;
     String link_background=null;
+
+    //doi chu
+    private View.OnClickListener changeText=new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            Func_fragment.setFragment(getActivity(), StaticValues.TAG_FRAGMENT_CHANGETEXT);
+
+        }
+    };
+    //
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,11 +118,22 @@ public class Fragment_FormPreview extends Fragment {
         btnCreate=(Button)v.findViewById(R.id.btnCreate);
 
         txtChucvu.setOnLongClickListener(event);
+        txtChucvu.setOnClickListener(changeText);
+
         txtHoten.setOnLongClickListener(event);
+        txtHoten.setOnClickListener(changeText);
+
         txtCongty.setOnLongClickListener(event);
+        txtCongty.setOnClickListener(changeText);
+
         txtDiachi.setOnLongClickListener(event);
+        txtDiachi.setOnClickListener(changeText);
+
         txtSodienthoai.setOnLongClickListener(event);
+        txtSodienthoai.setOnClickListener(changeText);
+
         txtEmail.setOnLongClickListener(event);
+        txtEmail.setOnClickListener(changeText);
 
         //click ảnh
         imgLogo.setOnLongClickListener(new View.OnLongClickListener() {
