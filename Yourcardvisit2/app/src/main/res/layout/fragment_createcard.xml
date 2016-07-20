@@ -25,14 +25,15 @@ android:gravity="center"
             android:layout_width="355.96dp"
             android:layout_height="wrap_content"
             android:background="@drawable/card"
-            android:id="@+id/yourcard">
-            <ImageView
+            android:id="@+id/yourcard"
+            android:clipChildren="false">
+            <com.example.vanthanh.yourcardvisit.Views.TouchImageView
                 android:layout_marginLeft="240dp"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                android:background="@android:drawable/sym_def_app_icon"
+                android:layout_width="90dp"
+                android:layout_height="90dp"
                 android:id="@+id/imgLogo"
-                android:layout_marginTop="8dp"/>
+                android:layout_marginTop="8dp"
+                android:orientation="vertical" />
 
             <TextView
                 android:layout_marginLeft="15dp"
