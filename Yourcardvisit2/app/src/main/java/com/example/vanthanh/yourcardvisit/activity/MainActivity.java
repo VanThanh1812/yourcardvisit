@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -32,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
 
 
-
     private CallbackManager mCallbackManager;
 
     @Override
@@ -42,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_main);
         final RelativeLayout layout=(RelativeLayout)findViewById(R.id.main);
+
+
 
         mCallbackManager = CallbackManager.Factory.create();
         final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);

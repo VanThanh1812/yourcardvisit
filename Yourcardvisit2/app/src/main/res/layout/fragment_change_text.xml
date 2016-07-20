@@ -14,7 +14,7 @@
             android:layout_height="40dp"
             android:id="@+id/layout_textfont"
             android:background="#14f0bd"
-            android:layout_weight="1.5">
+            android:layout_weight="2.5">
 
             <Spinner
                 android:layout_width="match_parent"

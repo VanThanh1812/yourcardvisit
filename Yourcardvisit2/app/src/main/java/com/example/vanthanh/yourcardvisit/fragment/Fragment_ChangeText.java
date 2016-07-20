@@ -2,6 +2,7 @@ package com.example.vanthanh.yourcardvisit.fragment;
 
 
 import android.app.AlertDialog;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,20 +15,33 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.vanthanh.yourcardvisit.R;
-import com.example.vanthanh.yourcardvisit.customcard.customAdaptor;
-import com.example.vanthanh.yourcardvisit.model.textDisplay;
-
-import java.util.ArrayList;
+import com.example.vanthanh.yourcardvisit.customcard.custom_spinnerAdapter;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class Fragment_ChangeText extends Fragment {
+public class Fragment_ChangeText extends Fragment  {
     TextView colorunderA;
     TextView txt_test;
     Button changeColor;
     String arr[]={"14","8","10","12","14","16","18","20","22","24","26","28","30","32","34"};
-    ArrayList<textDisplay> arrayList=new ArrayList<>();
+    String textfont[]={"DroidSerif-Regular",
+            "bunga belati putih",
+            "CROCHET PATTERN",
+            "croissant sandwich",
+            "DroidSerif-Bold",
+            "DroidSerif-Boldltalic",
+            "DroidSerif-ltalic",
+            "atmostsphere",
+            "FallingSkyBd+Obl",
+            "FallingSky",
+            "FallingSkyCondOu",
+            "FallingSkyCondOuObl",
+            "FallingSkyExBd",
+            "green avocado",
+            "painting the light"};
+
+
 
 
 
@@ -41,34 +55,51 @@ public class Fragment_ChangeText extends Fragment {
                              Bundle savedInstanceState) {
 
         final View v=inflater.inflate(R.layout.fragment_change_text,null);
+        Typeface atmostsphere=Typeface.createFromAsset(getActivity().getAssets(),"atmostsphere.ttf");
+        Typeface bungabelatiputih=Typeface.createFromAsset(getActivity().getAssets(),"bunga melati putih.ttf");
+        Typeface CROCHETPATTERN=Typeface.createFromAsset(getActivity().getAssets(),"CROCHET PATTERN.ttf");
+        Typeface croissantsandwich=Typeface.createFromAsset(getActivity().getAssets(),"croissant sandwich.ttf");
+        Typeface DroidSerifBold=Typeface.createFromAsset(getActivity().getAssets(),"DroidSerif-Bold.ttf");
+        Typeface DroidSerifBoldltalic=Typeface.createFromAsset(getActivity().getAssets(),"DroidSerif-BoldItalic.ttf");
+        Typeface DroidSerifltalic=Typeface.createFromAsset(getActivity().getAssets(),"DroidSerif-Italic.ttf");
+        Typeface DroidSerifRegular=Typeface.createFromAsset(getActivity().getAssets(),"DroidSerif-Regular.ttf");
+        Typeface FallingSkyBdObl=Typeface.createFromAsset(getActivity().getAssets(),"FallingSkyBd+Obl.otf");
+        Typeface FallingSky= Typeface.createFromAsset(getActivity().getAssets(),"FallingSky.otf");
+        Typeface FallingSkyCondOu=Typeface.createFromAsset(getActivity().getAssets(),"FallingSkyCondOu.otf");
+        Typeface FallingSkyCondOuObl=Typeface.createFromAsset(getActivity().getAssets(),"FallingSkyCondOuObl.otf");
+        Typeface FallingSkyExBd=Typeface.createFromAsset(getActivity().getAssets(),"FallingSkyExBd.otf");
+        Typeface greenavocado=Typeface.createFromAsset(getActivity().getAssets(),"green avocado.ttf");
+        Typeface paintingthelight=Typeface.createFromAsset(getActivity().getAssets(),"painting the light.ttf");
 
-        Spinner spn_textfont=(Spinner)v.findViewById(R.id.textfont_spinner);
-        Spinner spn=(Spinner)v.findViewById(R.id.textsize_spinner);
+
+
+        final Typeface myfont[]={DroidSerifRegular,
+                bungabelatiputih,
+                CROCHETPATTERN,
+                croissantsandwich,
+                DroidSerifBold
+                ,DroidSerifBoldltalic,
+                DroidSerifltalic,
+                atmostsphere,
+                FallingSkyBdObl,
+                FallingSky,
+                FallingSkyCondOu,
+                FallingSkyCondOuObl,
+                FallingSkyExBd,
+                greenavocado,
+                paintingthelight};
         colorunderA=(TextView)v.findViewById(R.id.color_underA);
         txt_test=(TextView)v.findViewById(R.id.text_modify);
         changeColor=(Button)v.findViewById(R.id.button_changeColor);
 
-        arrayList.add(new textDisplay("atmostsphere"));
-        arrayList.add(new textDisplay("bunga belati putih"));
-        arrayList.add(new textDisplay("CROCHET PATTERN"));
-        arrayList.add(new textDisplay("croissant sandwich"));
-        arrayList.add(new textDisplay("DroidSerif-Bold"));
-        arrayList.add(new textDisplay("DroidSerif-Boldltalic"));
-        arrayList.add(new textDisplay("DroidSerif-ltalic"));
-        arrayList.add(new textDisplay("DroidSerif-Regular"));
-        arrayList.add(new textDisplay("FallingSky"));
-        arrayList.add(new textDisplay("FallingSkyBd"));
 
-        customAdaptor adaptor2=new customAdaptor(getActivity(),arrayList);
-        adaptor2.setDropDownViewResource(android.R.layout.simple_list_item_1);
-        spn_textfont.setAdapter(adaptor2);
-
+        Spinner spn_textfont=(Spinner)v.findViewById(R.id.textfont_spinner);
+        custom_spinnerAdapter customSpinnerAdapter=new custom_spinnerAdapter(getActivity(),textfont);
+        spn_textfont.setAdapter(customSpinnerAdapter);
         spn_textfont.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if(i==1){
-
-                }
+                txt_test.setTypeface(myfont[i]);
             }
 
             @Override
@@ -77,6 +108,8 @@ public class Fragment_ChangeText extends Fragment {
             }
         });
 
+
+        Spinner spn=(Spinner)v.findViewById(R.id.textsize_spinner);
         ArrayAdapter<String> adapter=new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, arr);
         adapter.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spn.setAdapter(adapter);
