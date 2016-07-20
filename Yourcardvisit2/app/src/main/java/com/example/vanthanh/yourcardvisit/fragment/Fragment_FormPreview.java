@@ -17,16 +17,18 @@ import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vanthanh.yourcardvisit.R;
+import com.example.vanthanh.yourcardvisit.Views.TouchImageView;
 import com.example.vanthanh.yourcardvisit.controls.FirebaseData;
 import com.example.vanthanh.yourcardvisit.controls.Func_fragment;
 import com.example.vanthanh.yourcardvisit.model.Data_Info;
@@ -35,10 +37,14 @@ import com.example.vanthanh.yourcardvisit.staticvalues.StaticValues;
 /**
  * Created by Van Thanh on 7/10/2016.
  */
-public class Fragment_FormPreview extends Fragment {
+public class Fragment_FormPreview extends Fragment implements View.OnTouchListener {
     TextView txtHoten,txtCongty,txtDiachi,txtEmail,txtSodienthoai,txtChucvu;
     EditText edtHoten,edtCongty,edtDiachi,edtEmail,edtSodienthoai,edtChucvu;
-    ImageView imgLogo;
+    private int _xDelta;
+    private int _yDelta;
+    public static final int RELATIVE_MARGIN_TOP=1000;
+    public static final int RELATIVE_MARGIN_LEFT=700;
+    TouchImageView imgLogo;
     LinearLayout layout;
     Button btnCreate;
     View v;
@@ -114,9 +120,10 @@ public class Fragment_FormPreview extends Fragment {
         txtEmail=(TextView)v.findViewById(R.id.txtEmail);
         txtSodienthoai=(TextView)v.findViewById(R.id.txtSodienthoai);
         txtHoten=(TextView)v.findViewById(R.id.txtHoTen);
-        imgLogo=(ImageView)v.findViewById(R.id.imgLogo);
+        imgLogo=(TouchImageView)v.findViewById(R.id.imgLogo);
         btnCreate=(Button)v.findViewById(R.id.btnCreate);
-
+        Drawable marker = getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
+        imgLogo.setImageDrawable(marker);
         txtChucvu.setOnLongClickListener(event);
         txtChucvu.setOnClickListener(changeText);
 
@@ -143,6 +150,7 @@ public class Fragment_FormPreview extends Fragment {
                 return true;
             }
         });
+
 
         //click nền
         layout=(LinearLayout)v.findViewById(R.id.yourcard);
@@ -266,5 +274,48 @@ public class Fragment_FormPreview extends Fragment {
 
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onTouch(View view, MotionEvent event) {
+        final int X = (int) event.getRawX();
+        final int Y = (int) event.getRawY();
+        switch (event.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_DOWN:
+                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+
+                _xDelta = X - lParams.leftMargin;
+                _yDelta = Y - lParams.topMargin;
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
+            case MotionEvent.ACTION_POINTER_DOWN:
+                break;
+            case MotionEvent.ACTION_POINTER_UP:
+                break;
+            case MotionEvent.ACTION_MOVE:
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                layoutParams.leftMargin = X - _xDelta;
+                layoutParams.topMargin = Y - _yDelta;
+                layoutParams.rightMargin = -250;
+                layoutParams.bottomMargin = -250;
+
+                if (Y-_yDelta<=0){
+                    layoutParams.topMargin=0;
+                }
+                if(Y+(v.getHeight()-_yDelta)>=RELATIVE_MARGIN_TOP){
+                    layoutParams.topMargin=RELATIVE_MARGIN_TOP-v.getHeight();
+                }
+                if(X-_xDelta<=0){
+                    layoutParams.leftMargin=0;
+                }
+                if(X+(v.getWidth()-_xDelta)>=RELATIVE_MARGIN_LEFT){
+                    layoutParams.leftMargin=RELATIVE_MARGIN_LEFT-v.getWidth();
+                }
+//                        Toast.makeText(getActivity(), ""+z, Toast.LENGTH_SHORT).show();
+                v.setLayoutParams(layoutParams);
+                break;
+        }
+        return true;
     }
 }
