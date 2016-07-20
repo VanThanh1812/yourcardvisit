@@ -41,10 +41,6 @@ public class Fragment_ChangeText extends Fragment  {
             "green avocado",
             "painting the light"};
 
-
-
-
-
     public Fragment_ChangeText() {
         // Required empty public constructor
     }
