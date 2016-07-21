@@ -4,11 +4,10 @@ import android.app.Activity;
 import android.app.FragmentManager;
 
 import com.example.vanthanh.yourcardvisit.R;
-<<<<<<< HEAD
-=======
-import com.example.vanthanh.yourcardvisit.fragment.Fragment_FormPreview;
->>>>>>> 6ef285671f96d80e904993e55c1947a7c92f5ec2
 import com.example.vanthanh.yourcardvisit.fragment.FragmentMain;
+import com.example.vanthanh.yourcardvisit.fragment.Fragment_AddCard;
+import com.example.vanthanh.yourcardvisit.fragment.Fragment_ChangeText;
+import com.example.vanthanh.yourcardvisit.fragment.Fragment_FormPreviewn;
 import com.example.vanthanh.yourcardvisit.fragment.Fragment_AddCard;
 import com.example.vanthanh.yourcardvisit.fragment.Fragment_FormPreview;
 import com.example.vanthanh.yourcardvisit.fragment.Fragment_ListCard;
@@ -38,10 +37,6 @@ public class Func_fragment {
             case StaticValues.TAG_FRAGMENT_CREATE:
                 Fragment_FormPreview fragment_Info=new Fragment_FormPreview();
                 fragmentTransaction.replace(R.id.framelayoutmain,fragment_Info,StaticValues.TAG_FRAGMENT_CREATE).addToBackStack(null);
-                break;
-<<<<<<< HEAD
-            case StaticValues.TAG_FRAGMENT_CHANGETEXT:
-                fragmentTransaction.replace(R.id.framelayoutmain,StaticValues.fragmentChangeText,StaticValues.TAG_FRAGMENT_CHANGETEXT).addToBackStack(null);
                 break;
 =======
 
