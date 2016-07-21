@@ -55,6 +55,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     private View.OnClickListener changeText=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
+            StaticValues.fragmentChangeText=new Fragment_ChangeText(view);
             Func_fragment.setFragment(getActivity(), StaticValues.TAG_FRAGMENT_CHANGETEXT);
 
         }
@@ -91,6 +92,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         public void onClick(View view) {
             Data_Info data_info=new Data_Info("idcard",txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
             FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+            FirebaseData.save_Image_Card(layout,getActivity());
         }
     };
     View.OnLongClickListener event=new View.OnLongClickListener() {
@@ -124,6 +126,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         btnCreate=(Button)v.findViewById(R.id.btnCreate);
         Drawable marker = getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
         imgLogo.setImageDrawable(marker);
+
         txtChucvu.setOnLongClickListener(event);
         txtChucvu.setOnClickListener(changeText);
 
@@ -182,7 +185,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
 
         try {
             startActivityForResult(
-                    Intent.createChooser(intent, "Select a File to Upload"),NUMBER);
+                    Intent.createChooser(intent, "Select a File"),NUMBER);
 
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
@@ -207,14 +210,8 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 if (resultCode == getActivity().RESULT_OK) {
                     // Get the Uri of the selected file
                     Uri uri = data.getData();
-                    FirebaseData.create_Images_Card(getActivity(),StaticValues.TYPE_LOGO,StaticValues.idfacebook,uri);
-                    //HienthiView.uri_congty=uri;
-                    //url=uri.toString();
+                    FirebaseData.create_Images_Card(getActivity(), StaticValues.TYPE_LOGO, StaticValues.idfacebook, uri);
                     Log.d("vthanh", "File Uri: " + uri.toString());
-
-                    // Get the path
-                    //String path = getPath(this, uri);
-
                     String[] filePathColumn = { MediaStore.Images.Media.DATA };
                     Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
                     cursor.moveToFirst();
@@ -228,14 +225,6 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                     if (bitmap!=null) {
                         imgLogo.setImageBitmap(bitmap);
                     }else Log.i("null","null");
-                    //
-//                        int index= lastIndexOf(path, '/');
-//                        int length=path.length();
-//                        String filechoose=substring(path, index, length);
-                    //txtLinkAva.setText(filechoose);
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
                 }
                 break;
             case StaticValues.IMAGE_BACKGROUND_FILECHOOSE:

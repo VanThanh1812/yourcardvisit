@@ -13,7 +13,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:id="@+id/layout_textfont"
-            android:background="#14f0bd"
+            android:background="#f8f9f6"
             android:layout_weight="2.5">
 
             <Spinner
@@ -57,7 +57,6 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="A"
-
                     android:gravity="center"
                     />
                 <TextView
@@ -80,11 +79,11 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="6"
         android:text="test"
-
+        android:layout_gravity="center"
         android:textSize="30dp"
         android:gravity="center"
         android:id="@+id/text_modify"/>
@@ -94,18 +93,22 @@
         android:layout_weight="4"
         android:orientation="horizontal">
         <Button
+            android:background="@drawable/font"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Save"
+            android:textColor="@color/textwhile"
             android:id="@+id/btnModify_save"
             android:layout_marginTop="15dp"
             android:layout_marginLeft="30dp"
             android:onClick="changeColors_save"/>
         <Button
+            android:background="@drawable/font"
+            android:textColor="@color/textwhile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel"
-            android:id="@+id/btnModify_calcel"
+            android:id="@+id/btnModify_cancel"
             android:layout_marginTop="15dp"
             android:layout_marginRight="30dp"
             android:layout_alignParentTop="true"

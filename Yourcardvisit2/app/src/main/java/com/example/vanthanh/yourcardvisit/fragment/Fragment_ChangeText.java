@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,8 @@ import com.example.vanthanh.yourcardvisit.customcard.custom_spinnerAdapter;
  */
 public class Fragment_ChangeText extends Fragment  {
     TextView colorunderA;
-    TextView txt_test;
-    Button changeColor;
+    TextView txt_test,txt_select;
+    Button changeColor,btn_Save,btn_Cancel;
     String arr[]={"14","8","10","12","14","16","18","20","22","24","26","28","30","32","34"};
     String textfont[]={"DroidSerif-Regular",
             "bunga belati putih",
@@ -41,8 +42,10 @@ public class Fragment_ChangeText extends Fragment  {
             "green avocado",
             "painting the light"};
 
-    public Fragment_ChangeText() {
+    public Fragment_ChangeText(View view) {
         // Required empty public constructor
+        this.txt_test=(TextView)view;
+        Log.i("addaadad",((TextView) view).getText().toString());
     }
 
 
@@ -88,6 +91,8 @@ public class Fragment_ChangeText extends Fragment  {
         txt_test=(TextView)v.findViewById(R.id.text_modify);
         changeColor=(Button)v.findViewById(R.id.button_changeColor);
 
+        btn_Save=(Button)v.findViewById(R.id.btnModify_save);
+        btn_Cancel=(Button)v.findViewById(R.id.btnModify_cancel);
 
         Spinner spn_textfont=(Spinner)v.findViewById(R.id.textfont_spinner);
         custom_spinnerAdapter customSpinnerAdapter=new custom_spinnerAdapter(getActivity(),textfont);
@@ -112,11 +117,10 @@ public class Fragment_ChangeText extends Fragment  {
         spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (position==0){
+                if (position == 0) {
                     txt_test.setTextSize(14);
-                }
-                else
-                    txt_test.setTextSize((position+3)*2);
+                } else
+                    txt_test.setTextSize((position + 3) * 2);
             }
 
             @Override
@@ -429,5 +433,6 @@ public class Fragment_ChangeText extends Fragment  {
         });
         return v;
     }
+
 
 }

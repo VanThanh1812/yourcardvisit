@@ -1,18 +1,13 @@
 package com.example.vanthanh.yourcardvisit.activity;
 
-import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import com.example.vanthanh.yourcardvisit.R;
 import com.example.vanthanh.yourcardvisit.controls.Func_fragment;
@@ -52,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d(StaticValues.TAG, "facebook:onSuccess:" + loginResult.getAccessToken().getUserId());
-                StaticValues.idfacebook = loginResult.getAccessToken().getUserId().toString();
+                StaticValues.idfacebook = loginResult.getAccessToken().getUserId().toString()+"/";
 
                 Func_fragment.setFragment(MainActivity.this, StaticValues.TAG_FRAGMENTMAIN);
                 layout.setBackgroundColor(Color.WHITE);
@@ -90,11 +85,11 @@ public class MainActivity extends AppCompatActivity {
         mSharedPrefer =getSharedPreferences(PREF, 0);
         editor=mSharedPrefer.edit();
         boolean flag=mSharedPrefer.getBoolean(PREF,false);
-        if(flag){
-            Func_fragment.setFragment(MainActivity.this, StaticValues.TAG_FRAGMENTMAIN);
-            layout.setBackgroundColor(Color.WHITE);
-            loginButton.setVisibility(View.GONE);
-        }
+//        if(flag){
+//            Func_fragment.setFragment(MainActivity.this, StaticValues.TAG_FRAGMENTMAIN);
+//            layout.setBackgroundColor(Color.WHITE);
+//            loginButton.setVisibility(View.GONE);
+//        }
 
     }
     @Override
