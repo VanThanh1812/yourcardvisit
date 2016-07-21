@@ -79,14 +79,21 @@
         </LinearLayout>
     </LinearLayout>
     <TextView
+<<<<<<< HEAD:Yourcardvisit2/app/src/main/res/layout/fragment_change_text.xml
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="6"
+=======
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+
+>>>>>>> 6ef285671f96d80e904993e55c1947a7c92f5ec2:Yourcardvisit2/app/src/main/res/layout/activity_change_text.xml
         android:text="test"
         android:layout_gravity="center"
         android:textSize="30dp"
         android:gravity="center"
         android:id="@+id/text_modify"/>
+<<<<<<< HEAD:Yourcardvisit2/app/src/main/res/layout/fragment_change_text.xml
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -114,6 +121,8 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
+=======
+>>>>>>> 6ef285671f96d80e904993e55c1947a7c92f5ec2:Yourcardvisit2/app/src/main/res/layout/activity_change_text.xml
 
 
 
