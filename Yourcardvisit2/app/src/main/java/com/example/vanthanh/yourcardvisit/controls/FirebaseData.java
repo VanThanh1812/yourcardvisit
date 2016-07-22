@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.example.vanthanh.yourcardvisit.customcard.Custom_Get_Image_Card;
 import com.example.vanthanh.yourcardvisit.customcard.Custom_InfoCard;
 import com.example.vanthanh.yourcardvisit.model.Data_Info;
 import com.example.vanthanh.yourcardvisit.model.Full_Info_Card;
@@ -79,16 +80,35 @@ public class FirebaseData {
         FirebaseStorage storage=FirebaseStorage.getInstance();
         StorageReference reference=storage.getReferenceFromUrl(StaticValues.LINKSTORAGE + idFacebook + "/");
         StorageReference ref_logo=reference.child(type_image+"/"+uri.getLastPathSegment());
-        Log.d(StaticValues.TAG,uri.getLastPathSegment().toString());
+        Log.d(StaticValues.TAG, uri.getLastPathSegment().toString());
         UploadTask uploadTask_logo=ref_logo.putFile(uri);
         uploadTask_logo.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 Firebase.setAndroidContext(activity);
-                Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_IMAGE+idFacebook);
+                Firebase root = new Firebase(StaticValues.LINKROOT + StaticValues.CHILD_IMAGE + idFacebook);
                 root.child(type_image).setValue(taskSnapshot.getDownloadUrl().toString());
             }
         });
+    }
+
+    public static void get_ImageCard(final String idFacebook, final ArrayList<String> list, final Custom_Get_Image_Card imgCard,GridView gridView){
+        Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_IMAGE+idFacebook);
+        root.child("card").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Log.i("vttttt", dataSnapshot.toString());
+                if (list.size()!=0) list.remove(0);
+                list.add(dataSnapshot.getValue().toString());
+                imgCard.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
     public static void get_Card_From_Firebase(final String idFacebook, final ArrayList<Full_Info_Card> list, final Custom_InfoCard custom_infoCard,GridView gridView){
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
