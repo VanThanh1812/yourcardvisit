@@ -14,6 +14,7 @@ import com.example.vanthanh.yourcardvisit.customcard.Custom_InfoCard;
 import com.example.vanthanh.yourcardvisit.model.Data_Info;
 import com.example.vanthanh.yourcardvisit.model.Full_Info_Card;
 import com.example.vanthanh.yourcardvisit.staticvalues.StaticValues;
+import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
@@ -91,7 +92,50 @@ public class FirebaseData {
             }
         });
     }
+    public static void get_List_Card_Friends(final String idFacebook, final ArrayList<String> list, final Custom_Get_Image_Card imgCard){
+        Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
+        root.child("listcard/").addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Log.i("abbaa", dataSnapshot.toString());
+                Firebase root = new Firebase(StaticValues.LINKROOT + StaticValues.CHILD_IMAGE + dataSnapshot.getValue().toString());
+                root.child("card").addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.i("vttttt", dataSnapshot.toString());
+                        list.add(dataSnapshot.getValue().toString());
+                        imgCard.notifyDataSetChanged();
+                    }
 
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+
+                    }
+                });
+                //get_ImageCard(dataSnapshot.getValue().toString(),list,imgCard,null);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
     public static void get_ImageCard(final String idFacebook, final ArrayList<String> list, final Custom_Get_Image_Card imgCard,GridView gridView){
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_IMAGE+idFacebook);
         root.child("card").addValueEventListener(new ValueEventListener() {
