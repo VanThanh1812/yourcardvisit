@@ -6,9 +6,6 @@ import android.app.FragmentManager;
 import com.example.vanthanh.yourcardvisit.R;
 import com.example.vanthanh.yourcardvisit.fragment.FragmentMain;
 import com.example.vanthanh.yourcardvisit.fragment.Fragment_AddCard;
-import com.example.vanthanh.yourcardvisit.fragment.Fragment_ChangeText;
-import com.example.vanthanh.yourcardvisit.fragment.Fragment_FormPreviewn;
-import com.example.vanthanh.yourcardvisit.fragment.Fragment_AddCard;
 import com.example.vanthanh.yourcardvisit.fragment.Fragment_FormPreview;
 import com.example.vanthanh.yourcardvisit.fragment.Fragment_ListCard;
 import com.example.vanthanh.yourcardvisit.fragment.Fragment_Mycard;
@@ -38,9 +35,6 @@ public class Func_fragment {
                 Fragment_FormPreview fragment_Info=new Fragment_FormPreview();
                 fragmentTransaction.replace(R.id.framelayoutmain,fragment_Info,StaticValues.TAG_FRAGMENT_CREATE).addToBackStack(null);
                 break;
-=======
-
->>>>>>> 6ef285671f96d80e904993e55c1947a7c92f5ec2
             default:
                 Fragment_Mycard fragment_mycard=new Fragment_Mycard();
                 fragmentTransaction.replace(R.id.framelayoutmain,fragment_mycard,StaticValues.TAG_FRAGMENT_MYCARD).addToBackStack(null);

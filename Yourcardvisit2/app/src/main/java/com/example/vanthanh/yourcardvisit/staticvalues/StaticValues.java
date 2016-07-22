@@ -1,7 +1,5 @@
 package com.example.vanthanh.yourcardvisit.staticvalues;
 
-import com.example.vanthanh.yourcardvisit.fragment.Fragment_ChangeText;
-
 /**
  * Created by Van Thanh on 7/9/2016.
  */
@@ -29,6 +27,6 @@ public class StaticValues {
     public static final String TYPE_BACKGROUND="background";
     public static final String CHILD_FRIENDS_CARD="listfriendscard";
 
-    public static Fragment_ChangeText fragmentChangeText;
+
 
 }

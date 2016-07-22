@@ -34,7 +34,6 @@ import android.widget.Toast;
 import com.example.vanthanh.yourcardvisit.R;
 import com.example.vanthanh.yourcardvisit.Views.TouchImageView;
 import com.example.vanthanh.yourcardvisit.controls.FirebaseData;
-import com.example.vanthanh.yourcardvisit.controls.Func_fragment;
 import com.example.vanthanh.yourcardvisit.customcard.custom_spinnerAdapter;
 import com.example.vanthanh.yourcardvisit.model.Data_Info;
 import com.example.vanthanh.yourcardvisit.staticvalues.StaticValues;
@@ -60,9 +59,6 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     private View.OnClickListener changeText=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
-            StaticValues.fragmentChangeText=new Fragment_ChangeText(view);
-            Func_fragment.setFragment(getActivity(), StaticValues.TAG_FRAGMENT_CHANGETEXT);
             final View v=view;
             AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
             View v1=getActivity().getLayoutInflater().inflate(R.layout.activity_change_text,null );
@@ -499,7 +495,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 txtSodienthoai.setText(edtSodienthoai.getText().toString());
                 txtCongty.setText(edtCongty.getText().toString());
                 txtEmail.setText(edtEmail.getText().toString());
-                txtDiachi.setText(edtDiachi.getText().toString());
+                txtDiachi.setText(edtEmail.getText().toString());
                 Toast.makeText(getActivity(),"Chạm và giữ để chỉnh sửa lại",Toast.LENGTH_LONG);
             }
         });
@@ -604,7 +600,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
 
         try {
             startActivityForResult(
-                    Intent.createChooser(intent, "Select a File"),NUMBER);
+                    Intent.createChooser(intent, "Select a File to Upload"),NUMBER);
 
         } catch (android.content.ActivityNotFoundException ex) {
             // Potentially direct the user to the Market with a Dialog
@@ -629,8 +625,14 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 if (resultCode == getActivity().RESULT_OK) {
                     // Get the Uri of the selected file
                     Uri uri = data.getData();
-                    FirebaseData.create_Images_Card(getActivity(), StaticValues.TYPE_LOGO, StaticValues.idfacebook, uri);
+                    FirebaseData.create_Images_Card(getActivity(),StaticValues.TYPE_LOGO,StaticValues.idfacebook,uri);
+                    //HienthiView.uri_congty=uri;
+                    //url=uri.toString();
                     Log.d("vthanh", "File Uri: " + uri.toString());
+
+                    // Get the path
+                    //String path = getPath(this, uri);
+
                     String[] filePathColumn = { MediaStore.Images.Media.DATA };
                     Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
                     cursor.moveToFirst();
@@ -644,6 +646,14 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                     if (bitmap!=null) {
                         imgLogo.setImageBitmap(bitmap);
                     }else Log.i("null","null");
+                    //
+//                        int index= lastIndexOf(path, '/');
+//                        int length=path.length();
+//                        String filechoose=substring(path, index, length);
+                    //txtLinkAva.setText(filechoose);
+                    // Get the file instance
+                    // File file = new File(path);
+                    // Initiate the upload
                 }
                 break;
             case StaticValues.IMAGE_BACKGROUND_FILECHOOSE:
