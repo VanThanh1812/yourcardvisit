@@ -25,7 +25,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -46,10 +45,10 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     EditText edtHoten,edtCongty,edtDiachi,edtEmail,edtSodienthoai,edtChucvu;
     private int _xDelta;
     private int _yDelta;
-    public static final int RELATIVE_MARGIN_TOP=1000;
+    public static final int RELATIVE_MARGIN_TOP=440;
     public static final int RELATIVE_MARGIN_LEFT=700;
     TouchImageView imgLogo;
-    LinearLayout layout;
+    RelativeLayout layout;
     Button btnCreate;
     View v;
     String link_logo=null;
@@ -567,10 +566,11 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 return true;
             }
         });
+        imgLogo.setOnTouchListener(this);
 
 
         //click nền
-        layout=(LinearLayout)v.findViewById(R.id.yourcard);
+        layout=(RelativeLayout)v.findViewById(R.id.yourcard);
         layout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
@@ -694,7 +694,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent event) {
+    public boolean onTouch(View v, MotionEvent event) {
         final int X = (int) event.getRawX();
         final int Y = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
