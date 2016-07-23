@@ -543,21 +543,27 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
 
         txtChucvu.setOnLongClickListener(event);
         txtChucvu.setOnClickListener(changeText);
+        txtChucvu.setOnTouchListener(this);
 
         txtHoten.setOnLongClickListener(event);
         txtHoten.setOnClickListener(changeText);
+        txtHoten.setOnTouchListener(this);
 
         txtCongty.setOnLongClickListener(event);
         txtCongty.setOnClickListener(changeText);
+        txtCongty.setOnTouchListener(this);
 
         txtDiachi.setOnLongClickListener(event);
         txtDiachi.setOnClickListener(changeText);
+        txtDiachi.setOnTouchListener(this);
 
         txtSodienthoai.setOnLongClickListener(event);
         txtSodienthoai.setOnClickListener(changeText);
+        txtSodienthoai.setOnTouchListener(this);
 
         txtEmail.setOnLongClickListener(event);
         txtEmail.setOnClickListener(changeText);
+        txtEmail.setOnTouchListener(this);
 
         //click ảnh
         imgLogo.setOnLongClickListener(new View.OnLongClickListener() {
