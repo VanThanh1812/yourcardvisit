@@ -495,7 +495,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 txtCongty.setText(edtCongty.getText().toString());
                 txtEmail.setText(edtEmail.getText().toString());
                 txtDiachi.setText(edtEmail.getText().toString());
-                Toast.makeText(getActivity(),"Chạm và giữ để chỉnh sửa lại",Toast.LENGTH_LONG);
+                Toast.makeText(getActivity(),"Chạm và giữ để chỉnh sửa lại",Toast.LENGTH_LONG).show();
             }
         });
         builder.show();

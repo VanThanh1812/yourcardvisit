@@ -96,15 +96,17 @@ public class FirebaseData {
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
         root.child("listcard/").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+            public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
                 Log.i("abbaa", dataSnapshot.toString());
-                Firebase root = new Firebase(StaticValues.LINKROOT + StaticValues.CHILD_IMAGE + dataSnapshot.getValue().toString());
+                final Firebase root = new Firebase(StaticValues.LINKROOT + StaticValues.CHILD_IMAGE + dataSnapshot.getValue().toString());
                 root.child("card").addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.i("vttttt", dataSnapshot.toString());
-                        list.add(dataSnapshot.getValue().toString());
+                    public void onDataChange(DataSnapshot data) {
+                        Log.i("vttttt", data.toString());
+                        // lấy link ảnh và key cho vào chuỗi String
+                        list.add(data.getValue().toString() + "vs" + dataSnapshot.getValue().toString());
                         imgCard.notifyDataSetChanged();
+
                     }
 
                     @Override

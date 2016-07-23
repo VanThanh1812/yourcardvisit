@@ -31,4 +31,7 @@ public class Fragment_ListCard extends Fragment {
         FirebaseData.get_List_Card_Friends(StaticValues.idfacebook, list_img, image_card);
         return v;
     }
+    private void onGridViewItemClick(GridView gridView){
+
+    }
 }
