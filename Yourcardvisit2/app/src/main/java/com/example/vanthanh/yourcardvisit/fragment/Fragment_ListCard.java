@@ -28,7 +28,7 @@ public class Fragment_ListCard extends Fragment {
         Custom_Get_Image_Card image_card=new Custom_Get_Image_Card(getActivity(),android.R.layout.simple_list_item_1,list_img);
         GridView gridView=(GridView)v.findViewById(R.id.gridViewListCard);
         gridView.setAdapter(image_card);
-        FirebaseData.get_List_Card_Friends(StaticValues.idfacebook, list_img, image_card);
+        FirebaseData.get_List_Card_Friends(getActivity(),StaticValues.idfacebook, list_img, image_card);
         return v;
     }
     private void onGridViewItemClick(GridView gridView){

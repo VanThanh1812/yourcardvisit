@@ -1,12 +1,14 @@
 package com.example.vanthanh.yourcardvisit.controls;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.vanthanh.yourcardvisit.customcard.Custom_Get_Image_Card;
@@ -24,6 +26,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -34,6 +38,7 @@ import java.util.Map;
  */
 public class FirebaseData {
     public static void save_Image_Card(final View view, final Activity activity){
+        //TODO: chụp lại card đã chỉnh sửa các thuộc tính
         view.setDrawingCacheEnabled(true);
         Bitmap bitmap=view.getDrawingCache();
         if(bitmap==null) {
@@ -58,26 +63,32 @@ public class FirebaseData {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
+
                 Firebase.setAndroidContext(activity);
-                Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_IMAGE+StaticValues.idfacebook);
-                root.child("card").setValue(taskSnapshot.getDownloadUrl().toString());
-                Log.i("777","oke roi day");
+                Firebase root = new Firebase(StaticValues.LINKROOT + StaticValues.CHILD_IMAGE + StaticValues.idfacebook);
+                root.child("card").setValue(taskSnapshot.getDownloadUrl().toString(), new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        Toast.makeText(activity, "Tạo card thành công", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
-    public static void create_Info_Card(Activity activity,String idFacebook,Data_Info data_info){
+    public static void create_Info_Card(final Activity activity,String idFacebook,Data_Info data_info){
         //TODO:lưu thông tin len csdl
         Firebase.setAndroidContext(activity);
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
         Log.d("abc", idFacebook);
-        root.setValue(data_info);
-        Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
-
-        //TODO:lưu link ảnh len csdl
+        root.setValue(data_info, new Firebase.CompletionListener() {
+            @Override
+            public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+            }
+        });
 
     }
     public static void create_Images_Card(final Activity activity,final String type_image, final String idFacebook,Uri uri){
+        //TODO: lưu ảnh logo và background
         FirebaseStorage storage=FirebaseStorage.getInstance();
         StorageReference reference=storage.getReferenceFromUrl(StaticValues.LINKSTORAGE + idFacebook + "/");
         StorageReference ref_logo=reference.child(type_image+"/"+uri.getLastPathSegment());
@@ -92,26 +103,38 @@ public class FirebaseData {
             }
         });
     }
-    public static void get_List_Card_Friends(final String idFacebook, final ArrayList<String> list, final Custom_Get_Image_Card imgCard){
+    public static void get_List_Card_Friends(final Activity activity,final String idFacebook, final ArrayList<String> list, final Custom_Get_Image_Card imgCard){
+        StaticValues.PROGRESS_DIALOG=new ProgressDialog(activity);
+        StaticValues.PROGRESS_DIALOG.show();
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
         root.child("listcard/").addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
+                if (dataSnapshot.equals(null)) {
+                    if (StaticValues.PROGRESS_DIALOG.isShowing())
+                        StaticValues.PROGRESS_DIALOG.dismiss();
+                    Toast.makeText(activity, "Fail loading...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Log.i("abbaa", dataSnapshot.toString());
                 final Firebase root = new Firebase(StaticValues.LINKROOT + StaticValues.CHILD_IMAGE + dataSnapshot.getValue().toString());
                 root.child("card").addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot data) {
                         Log.i("vttttt", data.toString());
-                        // lấy link ảnh và key cho vào chuỗi String
-                        list.add(data.getValue().toString() + "vs" + dataSnapshot.getValue().toString());
-                        imgCard.notifyDataSetChanged();
-
+                        if (data.equals(null)) {
+                            list.add("vs" + dataSnapshot.getValue().toString());
+                        } else {
+                            if (StaticValues.PROGRESS_DIALOG.isShowing())
+                                StaticValues.PROGRESS_DIALOG.dismiss();
+                            list.add(data.getValue().toString() + "vs" + dataSnapshot.getValue().toString());
+                            imgCard.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
-
+                        Toast.makeText(activity, "Fail loading", Toast.LENGTH_SHORT).show();
                     }
                 });
                 //get_ImageCard(dataSnapshot.getValue().toString(),list,imgCard,null);
@@ -138,15 +161,24 @@ public class FirebaseData {
             }
         });
     }
-    public static void get_ImageCard(final String idFacebook, final ArrayList<String> list, final Custom_Get_Image_Card imgCard,GridView gridView){
+    public static void get_MyCard (final Activity activity,final String idFacebook, final ImageView img){
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_IMAGE+idFacebook);
         root.child("card").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Log.i("vttttt", dataSnapshot.toString());
-                if (list.size()!=0) list.remove(0);
-                list.add(dataSnapshot.getValue().toString());
-                imgCard.notifyDataSetChanged();
+                Picasso.with(activity).load(dataSnapshot.getValue().toString()).placeholder(android.R.drawable.ic_dialog_info).into(img, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        if (StaticValues.PROGRESS_DIALOG.isShowing())
+                            StaticValues.PROGRESS_DIALOG.dismiss();
+                    }
+
+                    @Override
+                    public void onError() {
+                        Toast.makeText(activity, "Fail loading", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
 
             @Override
@@ -154,8 +186,8 @@ public class FirebaseData {
 
             }
         });
-
     }
+
     public static void get_Card_From_Firebase(final String idFacebook, final ArrayList<Full_Info_Card> list, final Custom_InfoCard custom_infoCard,GridView gridView){
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
         root.addValueEventListener(new ValueEventListener() {

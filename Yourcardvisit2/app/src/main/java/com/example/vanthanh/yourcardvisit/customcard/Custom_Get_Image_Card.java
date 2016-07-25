@@ -1,6 +1,7 @@
 package com.example.vanthanh.yourcardvisit.customcard;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,7 +41,20 @@ public class Custom_Get_Image_Card extends ArrayAdapter<String> {
         final String url=getItem(position);
         final String arr[]=url.split("vs");
         ImageView img=(ImageView)convertView.findViewById(R.id.imageView);
-        Picasso.with(getContext()).load(arr[0]).placeholder(R.mipmap.ic_launcher).into(img);
+        StaticValues.PROGRESS_DIALOG=new ProgressDialog(convertView.getContext());
+        StaticValues.PROGRESS_DIALOG.show();
+        Picasso.with(getContext()).load(arr[0]).placeholder(R.mipmap.ic_launcher).into(img, new Callback() {
+            @Override
+            public void onSuccess() {
+                if (StaticValues.PROGRESS_DIALOG.isShowing()) StaticValues.PROGRESS_DIALOG.dismiss();
+            }
+
+            @Override
+            public void onError() {
+                if (StaticValues.PROGRESS_DIALOG.isShowing()) StaticValues.PROGRESS_DIALOG.dismiss();
+                Toast.makeText(getContext(),"Fail loading",Toast.LENGTH_SHORT).show();
+            }
+        });
 
         img.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,7 @@
 package com.example.vanthanh.yourcardvisit.staticvalues;
 
+import android.app.ProgressDialog;
+
 /**
  * Created by Van Thanh on 7/9/2016.
  */
@@ -27,6 +29,6 @@ public class StaticValues {
     public static final String TYPE_BACKGROUND="background";
     public static final String CHILD_FRIENDS_CARD="listfriendscard";
 
-
+    public static ProgressDialog PROGRESS_DIALOG;
 
 }
