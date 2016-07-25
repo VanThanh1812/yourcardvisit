@@ -48,6 +48,9 @@ public class FirebaseData {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
+        StaticValues.PROGRESS_DIALOG=new ProgressDialog(activity);
+        StaticValues.PROGRESS_DIALOG.setTitle("Đang tạo card");
+        StaticValues.PROGRESS_DIALOG.show();
 
 
         FirebaseStorage storage=FirebaseStorage.getInstance();
@@ -70,6 +73,7 @@ public class FirebaseData {
                     @Override
                     public void onComplete(FirebaseError firebaseError, Firebase firebase) {
                         Toast.makeText(activity, "Tạo card thành công", Toast.LENGTH_SHORT).show();
+                        if (StaticValues.PROGRESS_DIALOG.isShowing()) StaticValues.PROGRESS_DIALOG.dismiss();
                     }
                 });
             }
@@ -83,6 +87,7 @@ public class FirebaseData {
         root.setValue(data_info, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+
             }
         });
 
