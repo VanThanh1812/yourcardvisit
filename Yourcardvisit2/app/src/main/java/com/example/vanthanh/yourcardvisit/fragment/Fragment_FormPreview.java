@@ -36,6 +36,9 @@ import com.example.vanthanh.yourcardvisit.customcard.custom_spinnerAdapter;
 import com.example.vanthanh.yourcardvisit.model.Data_Info;
 import com.example.vanthanh.yourcardvisit.staticvalues.StaticValues;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 /**
  * Created by Van Thanh on 7/10/2016.
  */
@@ -503,11 +506,84 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     View.OnClickListener create=new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Data_Info data_info=new Data_Info("idcard",txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
-            FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
-            FirebaseData.save_Image_Card(layout,getActivity());
+            creatCard();
         }
     };
+    public void creatCard(){
+        FragmentMain Data_Info=new FragmentMain();
+        ArrayList<com.example.vanthanh.yourcardvisit.model.Data_Info> listCard=Data_Info.searchCard(txtHoten.getText().toString().trim().toLowerCase());
+        ArrayList<Integer> integers=new ArrayList<>();
+
+        if(listCard.size()==0){
+            integers=randomNumber();
+        }
+        if(listCard.size()!=0){
+            boolean check;
+            ArrayList<Integer> integers1=new ArrayList<>();
+
+            for(int i=0;i<listCard.size();i++){
+                integers1.add(Integer.parseInt(listCard.get(i).getCard_id()));
+            }
+            do {
+                integers=randomNumber();
+                check=checkInterges(integers1,integers);
+            }while (check==false);
+        }
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+        builder.setMessage("Xin moi ban chon ID cho Card: ");
+        final ArrayList<Integer> finalIntegers = integers;
+        builder.setNegativeButton(txtHoten.getText().toString() + finalIntegers.get(0).toString(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Data_Info data_info=new Data_Info(finalIntegers.get(0).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
+                FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+            }
+        });
+        builder.setNeutralButton(txtHoten.getText().toString() + finalIntegers.get(1).toString(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Data_Info data_info=new Data_Info(finalIntegers.get(1).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
+                FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+            }
+        });
+        builder.setPositiveButton(txtHoten.getText().toString() + finalIntegers.get(2).toString(), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Data_Info data_info=new Data_Info(finalIntegers.get(2).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
+                FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+            }
+        });
+        builder.show();
+
+
+    }
+
+    public ArrayList<Integer> randomNumber(){
+        ArrayList<Integer> integers=new ArrayList<>();
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        for (int i=101; i<999; i++) {
+            list.add(new Integer(i));
+        }
+        Collections.shuffle(list);
+        for (int i=0; i<3; i++) {
+            integers.add(list.get(i));
+        }
+        return integers;
+    }
+
+    public boolean checkInterges(ArrayList<Integer> a, ArrayList<Integer> b){
+        boolean check=true;
+        for(int i=0;i<a.size();i++){
+            for(int j=0;j<b.size();j++){
+                if(a.get(i)==b.get(j)){
+                    check=false;
+                }
+            }
+        }
+        return check;
+    }
+
     View.OnLongClickListener event=new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View view) {
