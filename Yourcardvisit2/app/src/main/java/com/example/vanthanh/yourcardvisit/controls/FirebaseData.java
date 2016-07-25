@@ -30,7 +30,7 @@ public class FirebaseData {
         //TODO:lưu thông tin
         Firebase.setAndroidContext(activity);
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
-        Log.d("abc", idFacebook);
+//        Log.d("abc", idFacebook);
         root.setValue(data_info);
         Toast.makeText(activity, "Done", Toast.LENGTH_SHORT).show();
 
