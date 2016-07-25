@@ -79,7 +79,7 @@ public class FirebaseData {
         //TODO:lưu thông tin len csdl
         Firebase.setAndroidContext(activity);
         Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
-        Log.d("abc", idFacebook);
+//        Log.d("abc", idFacebook);
         root.setValue(data_info, new Firebase.CompletionListener() {
             @Override
             public void onComplete(FirebaseError firebaseError, Firebase firebase) {
