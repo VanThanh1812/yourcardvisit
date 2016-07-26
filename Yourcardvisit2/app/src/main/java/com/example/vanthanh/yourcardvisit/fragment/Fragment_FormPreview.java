@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -12,7 +11,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -35,6 +33,7 @@ import android.widget.Toast;
 import com.example.vanthanh.yourcardvisit.R;
 import com.example.vanthanh.yourcardvisit.Views.TouchImageView;
 import com.example.vanthanh.yourcardvisit.controls.FirebaseData;
+import com.example.vanthanh.yourcardvisit.controls.Func_fragment;
 import com.example.vanthanh.yourcardvisit.customcard.custom_spinnerAdapter;
 import com.example.vanthanh.yourcardvisit.model.Data_Info;
 import com.example.vanthanh.yourcardvisit.staticvalues.StaticValues;
@@ -535,13 +534,14 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         }
 
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-        builder.setMessage("Xin moi ban chon ID cho Card: ");
+        builder.setMessage("Hãy chọn ID cho card của bạn ");
         final ArrayList<Integer> finalIntegers = integers;
         builder.setNegativeButton(txtHoten.getText().toString() + finalIntegers.get(0).toString(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Data_Info data_info=new Data_Info(finalIntegers.get(0).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+                FirebaseData.save_Image_Card(layout,getActivity());
             }
         });
         builder.setNeutralButton(txtHoten.getText().toString() + finalIntegers.get(1).toString(), new DialogInterface.OnClickListener() {
@@ -549,6 +549,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
             public void onClick(DialogInterface dialogInterface, int i) {
                 Data_Info data_info=new Data_Info(finalIntegers.get(1).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+                FirebaseData.save_Image_Card(layout, getActivity());
             }
         });
         builder.setPositiveButton(txtHoten.getText().toString() + finalIntegers.get(2).toString(), new DialogInterface.OnClickListener() {
@@ -556,8 +557,10 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
             public void onClick(DialogInterface dialogInterface, int i) {
                 Data_Info data_info=new Data_Info(finalIntegers.get(2).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+                FirebaseData.save_Image_Card(layout, getActivity());
             }
         });
+
         builder.show();
 
 
@@ -717,21 +720,27 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                     Log.d("vthanh", "File Uri: " + uri.toString());
 
                     // Get the path
-                    //String path = getPath(this, uri);
+                    String picturePath = Func_fragment.getPath(getActivity(), uri);
 
-                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                    Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-                    Log.i("vt100",picturePath);
-                    Bitmap bitmap= BitmapFactory.decodeFile(picturePath);
-                    Drawable drawable=new BitmapDrawable(getResources(),bitmap);
-                    //txtLinkAva.setText(picturePath);
-                    if (bitmap!=null) {
-                        imgLogo.setImageBitmap(bitmap);
-                    }else Log.i("null","null");
+//                    String[] filePathColumn = { MediaStore.Images.Media.DATA,MediaStore.Images.ImageColumns.DATA,MediaStore.Images.Thumbnails.DATA };
+//                    Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
+//                    cursor.moveToFirst();
+//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                    String picturePath = cursor.getString(columnIndex);
+//                    if (cursor.equals(null)){
+//
+//                        Toast.makeText(getActivity(), "Kiểm tra quyền truy cập", Toast.LENGTH_SHORT).show();
+//
+//                    }else {
+//                        //cursor.close();
+                        Log.i("vt100", picturePath);
+                        Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+                        //Drawable drawable=new BitmapDrawable(getResources(),bitmap);
+                        //txtLinkAva.setText(picturePath);
+                        if (bitmap != null) {
+                            imgLogo.setImageBitmap(bitmap);
+                        } else Log.i("null", "null");
+                    }
                     //
 //                        int index= lastIndexOf(path, '/');
 //                        int length=path.length();
@@ -740,7 +749,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                     // Get the file instance
                     // File file = new File(path);
                     // Initiate the upload
-                }
+
                 break;
             case StaticValues.IMAGE_BACKGROUND_FILECHOOSE:
                 if (resultCode == getActivity().RESULT_OK) {
@@ -752,14 +761,14 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                     Log.d("vthanh", "File Uri: " + uri.toString());
 
                     // Get the path
-                    //String path = getPath(this, uri);
-                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
-                    Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
-                    cursor.moveToFirst();
-                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                    String picturePath = cursor.getString(columnIndex);
-                    cursor.close();
-                    //
+                    String picturePath = Func_fragment.getPath(getActivity(), uri);
+//                    String[] filePathColumn = { MediaStore.Images.Media.DATA };
+//                    Cursor cursor = getActivity().getContentResolver().query(uri, filePathColumn, null, null, null);
+//                    cursor.moveToFirst();
+//                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//                    String picturePath = cursor.getString(columnIndex);
+//                    cursor.close();
+
                     //txtLinkBackground.setText(picturePath);
                     Bitmap bitmap= BitmapFactory.decodeFile(picturePath);
                     Drawable drawable=new BitmapDrawable(getResources(),bitmap);
