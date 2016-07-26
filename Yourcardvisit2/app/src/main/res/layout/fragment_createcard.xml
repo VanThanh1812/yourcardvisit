@@ -44,6 +44,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Công ty"
+                android:typeface="monospace"
                 android:id="@+id/txtCongty" />
 
             <TextView

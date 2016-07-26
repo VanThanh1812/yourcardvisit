@@ -1,7 +1,6 @@
 package com.example.vanthanh.yourcardvisit.controls;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -48,10 +47,7 @@ public class FirebaseData {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data = baos.toByteArray();
-        StaticValues.PROGRESS_DIALOG=new ProgressDialog(activity);
-        StaticValues.PROGRESS_DIALOG.setTitle("Đang tạo card");
         StaticValues.PROGRESS_DIALOG.show();
-
 
         FirebaseStorage storage=FirebaseStorage.getInstance();
         StorageReference reference=storage.getReferenceFromUrl(StaticValues.LINKSTORAGE + StaticValues.idfacebook + "/card.jpg");
@@ -109,10 +105,9 @@ public class FirebaseData {
         });
     }
     public static void get_List_Card_Friends(final Activity activity,final String idFacebook, final ArrayList<String> list, final Custom_Get_Image_Card imgCard){
-        StaticValues.PROGRESS_DIALOG=new ProgressDialog(activity);
         StaticValues.PROGRESS_DIALOG.show();
-        Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_DATA+idFacebook);
-        root.child("listcard/").addChildEventListener(new ChildEventListener() {
+        Firebase root=new Firebase(StaticValues.LINKROOT+StaticValues.DATA_LIST_ID_FACEBOOK+idFacebook);
+        root.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(final DataSnapshot dataSnapshot, String s) {
                 if (dataSnapshot.equals(null)) {

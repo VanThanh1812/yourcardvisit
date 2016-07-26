@@ -13,7 +13,7 @@ public class StaticValues {
     public static final String TAG_FRAGMENT_MYCARD="TAG_FRAGMENT_MYCARD";
     public static final String TAG_FRAGMENT_CREATE="TAG_FRAGMENT_CREATE";
     public static final String TAG_FRAGMENT_CHANGETEXT="TAG_FRAGMENT_CHANGETEXT";
-
+    public static final String DATA_LIST_ID_FACEBOOK="data_list_id_facebook/";
     /*
     *
     *

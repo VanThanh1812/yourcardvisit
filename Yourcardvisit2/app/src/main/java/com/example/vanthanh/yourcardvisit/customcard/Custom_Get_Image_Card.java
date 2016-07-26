@@ -1,7 +1,6 @@
 package com.example.vanthanh.yourcardvisit.customcard;
 
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,7 +40,6 @@ public class Custom_Get_Image_Card extends ArrayAdapter<String> {
         final String url=getItem(position);
         final String arr[]=url.split("vs");
         ImageView img=(ImageView)convertView.findViewById(R.id.imageView);
-        StaticValues.PROGRESS_DIALOG=new ProgressDialog(convertView.getContext());
         StaticValues.PROGRESS_DIALOG.show();
         Picasso.with(getContext()).load(arr[0]).placeholder(R.mipmap.ic_launcher).into(img, new Callback() {
             @Override

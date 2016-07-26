@@ -1,7 +1,6 @@
 package com.example.vanthanh.yourcardvisit.fragment;
 
 import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ public class Fragment_Mycard extends Fragment {
         v=inflater.inflate(R.layout.fragment_mycard,null);
         Firebase.setAndroidContext(getActivity());
         ImageView imgView=(ImageView)v.findViewById(R.id.gridView2);
-        StaticValues.PROGRESS_DIALOG=new ProgressDialog(getActivity());
         StaticValues.PROGRESS_DIALOG.show();
         FirebaseData.get_MyCard(getActivity(), StaticValues.idfacebook, imgView);
         return v;

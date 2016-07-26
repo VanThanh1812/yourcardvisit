@@ -1,5 +1,6 @@
 package com.example.vanthanh.yourcardvisit.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_main);
         final RelativeLayout layout=(RelativeLayout)findViewById(R.id.main);
-
+        StaticValues.PROGRESS_DIALOG=new ProgressDialog(this);
 
 
         mCallbackManager = CallbackManager.Factory.create();
