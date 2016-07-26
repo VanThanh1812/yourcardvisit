@@ -531,13 +531,14 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         }
 
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
-        builder.setMessage("Xin moi ban chon ID cho Card: ");
+        builder.setMessage("Hãy chọn ID cho card của bạn ");
         final ArrayList<Integer> finalIntegers = integers;
         builder.setNegativeButton(txtHoten.getText().toString() + finalIntegers.get(0).toString(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 Data_Info data_info=new Data_Info(finalIntegers.get(0).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+                FirebaseData.save_Image_Card(layout,getActivity());
             }
         });
         builder.setNeutralButton(txtHoten.getText().toString() + finalIntegers.get(1).toString(), new DialogInterface.OnClickListener() {
@@ -545,6 +546,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
             public void onClick(DialogInterface dialogInterface, int i) {
                 Data_Info data_info=new Data_Info(finalIntegers.get(1).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+                FirebaseData.save_Image_Card(layout, getActivity());
             }
         });
         builder.setPositiveButton(txtHoten.getText().toString() + finalIntegers.get(2).toString(), new DialogInterface.OnClickListener() {
@@ -552,8 +554,10 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
             public void onClick(DialogInterface dialogInterface, int i) {
                 Data_Info data_info=new Data_Info(finalIntegers.get(2).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
+                FirebaseData.save_Image_Card(layout, getActivity());
             }
         });
+
         builder.show();
 
 
