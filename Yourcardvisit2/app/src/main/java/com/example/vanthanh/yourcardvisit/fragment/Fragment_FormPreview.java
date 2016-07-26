@@ -16,6 +16,8 @@ import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.GestureDetector;
+import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -56,7 +58,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     View v;
     String link_logo=null;
     String link_background=null;
-
+    private GestureDetector gestureDetector;
     //doi chu
     private View.OnClickListener changeText=new View.OnClickListener() {
         @Override
@@ -483,6 +485,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v=inflater.inflate(R.layout.fragment_createcard,null);
         v.setLongClickable(true);
+        gestureDetector = new GestureDetector(getActivity(), new SingleTapConfirm());
         Connect();
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         View popup=getActivity().getLayoutInflater().inflate(R.layout.dialog_forminfo,null);
@@ -606,6 +609,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     };
     //kết nối và đặt các sự kiện
     private void Connect(){
+
         txtChucvu=(TextView)v.findViewById(R.id.txtChucvu);
         txtCongty=(TextView)v.findViewById(R.id.txtCongty);
         txtDiachi=(TextView)v.findViewById(R.id.txtDiachi);
@@ -618,27 +622,27 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         imgLogo.setImageDrawable(marker);
 
         txtChucvu.setOnLongClickListener(event);
-        txtChucvu.setOnClickListener(changeText);
+
         txtChucvu.setOnTouchListener(this);
 
         txtHoten.setOnLongClickListener(event);
-        txtHoten.setOnClickListener(changeText);
+
         txtHoten.setOnTouchListener(this);
 
         txtCongty.setOnLongClickListener(event);
-        txtCongty.setOnClickListener(changeText);
+
         txtCongty.setOnTouchListener(this);
 
         txtDiachi.setOnLongClickListener(event);
-        txtDiachi.setOnClickListener(changeText);
+
         txtDiachi.setOnTouchListener(this);
 
         txtSodienthoai.setOnLongClickListener(event);
-        txtSodienthoai.setOnClickListener(changeText);
+
         txtSodienthoai.setOnTouchListener(this);
 
         txtEmail.setOnLongClickListener(event);
-        txtEmail.setOnClickListener(changeText);
+  
         txtEmail.setOnTouchListener(this);
 
         //click ảnh
@@ -778,6 +782,28 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
+        if (gestureDetector.onTouchEvent(event)) {
+            // single tap
+            changeText.onClick(v);
+            return true;
+        } else {
+            // your code for move and drag
+            moveView(v, event);
+        }
+
+        return false;
+
+    }
+    private class SingleTapConfirm extends SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapConfirmed(MotionEvent event) {
+            return true;
+        }
+    }
+
+    public void moveView(View v, MotionEvent event){
+
         final int X = (int) event.getRawX();
         final int Y = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
@@ -816,6 +842,5 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 v.setLayoutParams(layoutParams);
                 break;
         }
-        return true;
     }
 }
