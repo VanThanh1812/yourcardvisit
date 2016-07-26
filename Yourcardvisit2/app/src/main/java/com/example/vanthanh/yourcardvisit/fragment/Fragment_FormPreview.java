@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -484,7 +483,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v=inflater.inflate(R.layout.fragment_createcard,null);
         v.setLongClickable(true);
-        gestureDetector = new GestureDetector(getActivity(), new SingleTapConfirm());
+        gestureDetector = new GestureDetector(getActivity(), new SingleTapUp());
         Connect();
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         View popup=getActivity().getLayoutInflater().inflate(R.layout.dialog_forminfo,null);
@@ -624,27 +623,27 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         Drawable marker = getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
         imgLogo.setImageDrawable(marker);
 
-        txtChucvu.setOnLongClickListener(event);
+//        txtChucvu.setOnLongClickListener(event);
 
         txtChucvu.setOnTouchListener(this);
 
-        txtHoten.setOnLongClickListener(event);
+//        txtHoten.setOnLongClickListener(event);
 
         txtHoten.setOnTouchListener(this);
 
-        txtCongty.setOnLongClickListener(event);
+//        txtCongty.setOnLongClickListener(event);
 
         txtCongty.setOnTouchListener(this);
 
-        txtDiachi.setOnLongClickListener(event);
+//        txtDiachi.setOnLongClickListener(event);
 
         txtDiachi.setOnTouchListener(this);
 
-        txtSodienthoai.setOnLongClickListener(event);
+//        txtSodienthoai.setOnLongClickListener(event);
 
         txtSodienthoai.setOnTouchListener(this);
 
-        txtEmail.setOnLongClickListener(event);
+//        txtEmail.setOnLongClickListener(event);
   
         txtEmail.setOnTouchListener(this);
 
@@ -790,34 +789,36 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (gestureDetector.onTouchEvent(event)) {
+    public boolean onTouch(View v12, MotionEvent event12) {
+        if (gestureDetector.onTouchEvent(event12)) {
             // single tap
-            changeText.onClick(v);
+            Log.d("Nguyenvulong", "Tap");
+            changeText.onClick(v12);
             return true;
         } else {
             // your code for move and drag
-            moveView(v, event);
+            moveView(v12, event12);
+            Log.d("Nguyenvulong", "Move");
         }
 
-        return false;
+        return true;
 
     }
-    private class SingleTapConfirm extends SimpleOnGestureListener {
+    private class SingleTapUp extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent event) {
+        public boolean onSingleTapUp(MotionEvent event) {
             return true;
         }
     }
 
-    public void moveView(View v, MotionEvent event){
-
+    public void moveView(View v13, MotionEvent event){
+        Log.d("Nguyenvulong", "InMove");
         final int X = (int) event.getRawX();
         final int Y = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
-                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v13.getLayoutParams();
 
                 _xDelta = X - lParams.leftMargin;
                 _yDelta = Y - lParams.topMargin;
@@ -829,7 +830,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
             case MotionEvent.ACTION_POINTER_UP:
                 break;
             case MotionEvent.ACTION_MOVE:
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v13.getLayoutParams();
                 layoutParams.leftMargin = X - _xDelta;
                 layoutParams.topMargin = Y - _yDelta;
                 layoutParams.rightMargin = -250;
@@ -838,17 +839,17 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 if (Y-_yDelta<=0){
                     layoutParams.topMargin=0;
                 }
-                if(Y+(v.getHeight()-_yDelta)>=RELATIVE_MARGIN_TOP){
-                    layoutParams.topMargin=RELATIVE_MARGIN_TOP-v.getHeight();
+                if(Y+(v13.getHeight()-_yDelta)>=RELATIVE_MARGIN_TOP){
+                    layoutParams.topMargin=RELATIVE_MARGIN_TOP-v13.getHeight();
                 }
                 if(X-_xDelta<=0){
                     layoutParams.leftMargin=0;
                 }
-                if(X+(v.getWidth()-_xDelta)>=RELATIVE_MARGIN_LEFT){
-                    layoutParams.leftMargin=RELATIVE_MARGIN_LEFT-v.getWidth();
+                if(X+(v13.getWidth()-_xDelta)>=RELATIVE_MARGIN_LEFT){
+                    layoutParams.leftMargin=RELATIVE_MARGIN_LEFT-v13.getWidth();
                 }
 //                        Toast.makeText(getActivity(), ""+z, Toast.LENGTH_SHORT).show();
-                v.setLayoutParams(layoutParams);
+                v13.setLayoutParams(layoutParams);
                 break;
         }
     }
