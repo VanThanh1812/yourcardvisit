@@ -499,7 +499,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 txtSodienthoai.setText(edtSodienthoai.getText().toString());
                 txtCongty.setText(edtCongty.getText().toString());
                 txtEmail.setText(edtEmail.getText().toString());
-                txtDiachi.setText(edtEmail.getText().toString());
+                txtDiachi.setText(edtDiachi.getText().toString());
                 Toast.makeText(getActivity(),"Chạm và giữ để chỉnh sửa lại",Toast.LENGTH_LONG).show();
             }
         });
@@ -591,9 +591,9 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         return check;
     }
 
-    View.OnLongClickListener event=new View.OnLongClickListener() {
+    View.OnClickListener event=new View.OnClickListener() {
         @Override
-        public boolean onLongClick(View view) {
+        public void onClick(View view) {
             final TextView txt=(TextView)view;
             final EditText editText=new EditText(getActivity());
             editText.setText(txt.getText().toString());
@@ -607,7 +607,6 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 }
             });
             builder.show();
-            return true;
         }
     };
     //kết nối và đặt các sự kiện
@@ -624,27 +623,27 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         Drawable marker = getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
         imgLogo.setImageDrawable(marker);
 
-        txtChucvu.setOnLongClickListener(event);
+        txtChucvu.setOnClickListener(changeText);
 
         txtChucvu.setOnTouchListener(this);
 
-        txtHoten.setOnLongClickListener(event);
+        txtHoten.setOnClickListener(changeText);
 
         txtHoten.setOnTouchListener(this);
 
-        txtCongty.setOnLongClickListener(event);
+        txtCongty.setOnClickListener(event);
 
         txtCongty.setOnTouchListener(this);
 
-        txtDiachi.setOnLongClickListener(event);
+        txtDiachi.setOnClickListener(event);
 
         txtDiachi.setOnTouchListener(this);
 
-        txtSodienthoai.setOnLongClickListener(event);
+        txtSodienthoai.setOnClickListener(event);
 
         txtSodienthoai.setOnTouchListener(this);
 
-        txtEmail.setOnLongClickListener(event);
+        txtEmail.setOnClickListener(event);
   
         txtEmail.setOnTouchListener(this);
 
