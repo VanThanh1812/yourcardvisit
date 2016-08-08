@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.vanthanh.yourcardvisit.customcard.Custom_Get_Image_Card;
@@ -36,6 +37,48 @@ import java.util.Map;
  * Created by Van Thanh on 7/11/2016.
  */
 public class FirebaseData {
+    public static void create_Card_Preview(TextView txtSDT,TextView txtEmail,View layout, final Activity activity){
+        //TODO: SET GONE SDT  & EMAIL
+        txtEmail.setVisibility(View.GONE);
+        txtSDT.setVisibility(View.GONE);
+
+        layout.setDrawingCacheEnabled(true);
+        Bitmap bitmap=layout.getDrawingCache();
+        if(bitmap==null) {
+            Log.i("90","null rooif");
+            return;
+        }
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data = baos.toByteArray();
+        StaticValues.PROGRESS_DIALOG.show();
+
+        FirebaseStorage storage=FirebaseStorage.getInstance();
+        StorageReference reference=storage.getReferenceFromUrl(StaticValues.LINKSTORAGE + StaticValues.idfacebook + "/card_preview.jpg");
+
+        UploadTask uploadTask = reference.putBytes(data);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
+
+                Firebase.setAndroidContext(activity);
+                Firebase root = new Firebase(StaticValues.LINKROOT + StaticValues.CHILD_IMAGE + StaticValues.idfacebook);
+                root.child("card_preview").setValue(taskSnapshot.getDownloadUrl().toString(), new Firebase.CompletionListener() {
+                    @Override
+                    public void onComplete(FirebaseError firebaseError, Firebase firebase) {
+                        //Toast.makeText(activity, "Tạo card thành công", Toast.LENGTH_SHORT).show();
+                        if (StaticValues.PROGRESS_DIALOG.isShowing()) StaticValues.PROGRESS_DIALOG.dismiss();
+                    }
+                });
+            }
+        });
+    }
     public static void save_Image_Card(final View view, final Activity activity){
         //TODO: chụp lại card đã chỉnh sửa các thuộc tính
         view.setDrawingCacheEnabled(true);

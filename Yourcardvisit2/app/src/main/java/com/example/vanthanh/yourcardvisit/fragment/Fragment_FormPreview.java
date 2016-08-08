@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.GestureDetector;
-import android.view.GestureDetector.SimpleOnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -32,6 +31,7 @@ import android.widget.Toast;
 
 import com.example.vanthanh.yourcardvisit.R;
 import com.example.vanthanh.yourcardvisit.Views.TouchImageView;
+import com.example.vanthanh.yourcardvisit.controls.Contact_Card;
 import com.example.vanthanh.yourcardvisit.controls.FirebaseData;
 import com.example.vanthanh.yourcardvisit.controls.Func_fragment;
 import com.example.vanthanh.yourcardvisit.customcard.custom_spinnerAdapter;
@@ -484,7 +484,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         v=inflater.inflate(R.layout.fragment_createcard,null);
         v.setLongClickable(true);
-        gestureDetector = new GestureDetector(getActivity(), new SingleTapConfirm());
+        gestureDetector = new GestureDetector(getActivity(), new SingleTapUp());
         Connect();
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         View popup=getActivity().getLayoutInflater().inflate(R.layout.dialog_forminfo,null);
@@ -513,8 +513,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         }
     };
     public void creatCard(){
-        FragmentMain Data_Info=new FragmentMain();
-        ArrayList<com.example.vanthanh.yourcardvisit.model.Data_Info> listCard=Data_Info.searchCard(txtHoten.getText().toString().trim().toLowerCase());
+        ArrayList<com.example.vanthanh.yourcardvisit.model.Data_Info> listCard= Contact_Card.searchCardtoCreate(txtHoten.getText().toString().trim().toLowerCase());
         ArrayList<Integer> integers=new ArrayList<>();
 
         if(listCard.size()==0){
@@ -541,7 +540,8 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
             public void onClick(DialogInterface dialogInterface, int i) {
                 Data_Info data_info=new Data_Info(finalIntegers.get(0).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
-                FirebaseData.save_Image_Card(layout,getActivity());
+                FirebaseData.save_Image_Card(layout, getActivity());
+                FirebaseData.create_Card_Preview(txtSodienthoai,txtEmail,layout,getActivity());
             }
         });
         builder.setNeutralButton(txtHoten.getText().toString() + finalIntegers.get(1).toString(), new DialogInterface.OnClickListener() {
@@ -550,6 +550,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 Data_Info data_info=new Data_Info(finalIntegers.get(1).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
                 FirebaseData.save_Image_Card(layout, getActivity());
+                FirebaseData.create_Card_Preview(txtSodienthoai, txtEmail, layout, getActivity());
             }
         });
         builder.setPositiveButton(txtHoten.getText().toString() + finalIntegers.get(2).toString(), new DialogInterface.OnClickListener() {
@@ -558,6 +559,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 Data_Info data_info=new Data_Info(finalIntegers.get(2).toString(),txtHoten.getText().toString(),txtCongty.getText().toString(),txtSodienthoai.getText().toString(),txtDiachi.getText().toString(),txtChucvu.getText().toString(),txtEmail.getText().toString());
                 FirebaseData.create_Info_Card(getActivity(), StaticValues.idfacebook, data_info);
                 FirebaseData.save_Image_Card(layout, getActivity());
+                FirebaseData.create_Card_Preview(txtSodienthoai, txtEmail, layout, getActivity());
             }
         });
 
@@ -591,9 +593,9 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         return check;
     }
 
-    View.OnClickListener event=new View.OnClickListener() {
+    View.OnLongClickListener event=new View.OnLongClickListener() {
         @Override
-        public void onClick(View view) {
+        public boolean onLongClick(View view) {
             final TextView txt=(TextView)view;
             final EditText editText=new EditText(getActivity());
             editText.setText(txt.getText().toString());
@@ -607,6 +609,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 }
             });
             builder.show();
+            return true;
         }
     };
     //kết nối và đặt các sự kiện
@@ -623,30 +626,29 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         Drawable marker = getResources().getDrawable(R.drawable.common_google_signin_btn_icon_dark);
         imgLogo.setImageDrawable(marker);
 
-        txtChucvu.setOnClickListener(changeText);
+//        txtChucvu.setOnLongClickListener(event);
 
         txtChucvu.setOnTouchListener(this);
 
-        txtHoten.setOnClickListener(changeText);
+//        txtHoten.setOnLongClickListener(event);
 
         txtHoten.setOnTouchListener(this);
 
-        txtCongty.setOnClickListener(event);
+//        txtCongty.setOnLongClickListener(event);
 
         txtCongty.setOnTouchListener(this);
 
-        txtDiachi.setOnClickListener(event);
+//        txtDiachi.setOnLongClickListener(event);
 
         txtDiachi.setOnTouchListener(this);
 
-        txtSodienthoai.setOnClickListener(event);
+//        txtSodienthoai.setOnLongClickListener(event);
 
         txtSodienthoai.setOnTouchListener(this);
 
-        txtEmail.setOnClickListener(event);
-  
-        txtEmail.setOnTouchListener(this);
+//        txtEmail.setOnLongClickListener(event);
 
+        txtEmail.setOnTouchListener(this);
         //click ảnh
         imgLogo.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -732,22 +734,22 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
 //
 //                    }else {
 //                        //cursor.close();
-                        Log.i("vt100", picturePath);
-                        Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-                        //Drawable drawable=new BitmapDrawable(getResources(),bitmap);
-                        //txtLinkAva.setText(picturePath);
-                        if (bitmap != null) {
-                            imgLogo.setImageBitmap(bitmap);
-                        } else Log.i("null", "null");
-                    }
-                    //
+                    Log.i("vt100", picturePath);
+                    Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+                    //Drawable drawable=new BitmapDrawable(getResources(),bitmap);
+                    //txtLinkAva.setText(picturePath);
+                    if (bitmap != null) {
+                        imgLogo.setImageBitmap(bitmap);
+                    } else Log.i("null", "null");
+                }
+                //
 //                        int index= lastIndexOf(path, '/');
 //                        int length=path.length();
 //                        String filechoose=substring(path, index, length);
-                    //txtLinkAva.setText(filechoose);
-                    // Get the file instance
-                    // File file = new File(path);
-                    // Initiate the upload
+                //txtLinkAva.setText(filechoose);
+                // Get the file instance
+                // File file = new File(path);
+                // Initiate the upload
 
                 break;
             case StaticValues.IMAGE_BACKGROUND_FILECHOOSE:
@@ -778,7 +780,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
 //                        int length=path.length();
 //                        String filechoose=substring(path, index, length);
 //                        txtLinkAva.setText(filechoose);
-                    // Get the file instance
+                    // d Get the file instance
                     // File file = new File(path);
                     // Initiate the upload
                 }
@@ -789,34 +791,36 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     }
 
     @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        if (gestureDetector.onTouchEvent(event)) {
+    public boolean onTouch(View v12, MotionEvent event12) {
+        if (gestureDetector.onTouchEvent(event12)) {
             // single tap
-            changeText.onClick(v);
+            Log.d("Nguyenvulong", "Tap");
+            changeText.onClick(v12);
             return true;
         } else {
             // your code for move and drag
-            moveView(v, event);
+            moveView(v12, event12);
+            Log.d("Nguyenvulong", "Move");
         }
 
-        return false;
+        return true;
 
     }
-    private class SingleTapConfirm extends SimpleOnGestureListener {
+    private class SingleTapUp extends GestureDetector.SimpleOnGestureListener {
 
         @Override
-        public boolean onSingleTapConfirmed(MotionEvent event) {
+        public boolean onSingleTapUp(MotionEvent event) {
             return true;
         }
     }
 
-    public void moveView(View v, MotionEvent event){
-
+    public void moveView(View v13, MotionEvent event){
+        Log.d("Nguyenvulong", "InMove");
         final int X = (int) event.getRawX();
         final int Y = (int) event.getRawY();
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
-                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v13.getLayoutParams();
 
                 _xDelta = X - lParams.leftMargin;
                 _yDelta = Y - lParams.topMargin;
@@ -828,7 +832,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
             case MotionEvent.ACTION_POINTER_UP:
                 break;
             case MotionEvent.ACTION_MOVE:
-                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v13.getLayoutParams();
                 layoutParams.leftMargin = X - _xDelta;
                 layoutParams.topMargin = Y - _yDelta;
                 layoutParams.rightMargin = -250;
@@ -837,17 +841,17 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 if (Y-_yDelta<=0){
                     layoutParams.topMargin=0;
                 }
-                if(Y+(v.getHeight()-_yDelta)>=RELATIVE_MARGIN_TOP){
-                    layoutParams.topMargin=RELATIVE_MARGIN_TOP-v.getHeight();
+                if(Y+(v13.getHeight()-_yDelta)>=RELATIVE_MARGIN_TOP){
+                    layoutParams.topMargin=RELATIVE_MARGIN_TOP-v13.getHeight();
                 }
                 if(X-_xDelta<=0){
                     layoutParams.leftMargin=0;
                 }
-                if(X+(v.getWidth()-_xDelta)>=RELATIVE_MARGIN_LEFT){
-                    layoutParams.leftMargin=RELATIVE_MARGIN_LEFT-v.getWidth();
+                if(X+(v13.getWidth()-_xDelta)>=RELATIVE_MARGIN_LEFT){
+                    layoutParams.leftMargin=RELATIVE_MARGIN_LEFT-v13.getWidth();
                 }
 //                        Toast.makeText(getActivity(), ""+z, Toast.LENGTH_SHORT).show();
-                v.setLayoutParams(layoutParams);
+                v13.setLayoutParams(layoutParams);
                 break;
         }
     }
