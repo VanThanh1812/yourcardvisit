@@ -23,6 +23,7 @@ public class StaticValues {
     public static final String LINKROOT="https://yourcardvisit.firebaseio.com/";
     public static final String CHILD_DATA="data_info/";
     public static final String CHILD_IMAGE="data_image/";
+    public static final String CHILD_KEYID="data_listid/";
     public static final String LINKSTORAGE="gs://yourcardvisit.appspot.com/Images/";
     public static String idfacebook=null;
     public static final String TYPE_LOGO="logo";

@@ -18,6 +18,8 @@ public class Data_Info {
     public Data_Info() {
     }
 
+
+
     public Data_Info(String card_id, String card_name, String card_congty, String card_sodienthoai, String card_diachi, String card_chucvu, String card_email) {
         this.card_id = card_id;
         this.card_name = card_name;

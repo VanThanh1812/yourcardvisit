@@ -56,6 +56,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
     View v;
     String link_logo=null;
     String link_background=null;
+    ArrayList<Integer> listId;
     private GestureDetector gestureDetector;
     //doi chu
     private View.OnClickListener changeText=new View.OnClickListener() {
@@ -485,6 +486,7 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         v.setLongClickable(true);
         gestureDetector = new GestureDetector(getActivity(), new SingleTapUp());
         Connect();
+        listId =FirebaseData.getIDall();
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         View popup=getActivity().getLayoutInflater().inflate(R.layout.dialog_forminfo,null);
         connectPopup(popup);
@@ -512,12 +514,18 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         }
     };
     public void creatCard(){
+        if(listId.size()==0){
+            Toast.makeText(getActivity(), "Please wait...We are loading", Toast.LENGTH_SHORT).show();
+            return;
+        }
         FragmentMain Data_Info=new FragmentMain();
         ArrayList<com.example.vanthanh.yourcardvisit.model.Data_Info> listCard=Data_Info.searchCard(txtHoten.getText().toString().trim().toLowerCase());
-        ArrayList<Integer> integers=new ArrayList<>();
+        ArrayList<Integer> listShowId=new ArrayList<>();
+
+
 
         if(listCard.size()==0){
-            integers=randomNumber();
+            listShowId=randomNumber(listId);
         }
         if(listCard.size()!=0){
             boolean check;
@@ -527,14 +535,14 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 integers1.add(Integer.parseInt(listCard.get(i).getCard_id()));
             }
             do {
-                integers=randomNumber();
-                check=checkInterges(integers1,integers);
+                listShowId=randomNumber(listId);
+                check=checkInterges(integers1,listShowId);
             }while (check==false);
         }
 
         AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
         builder.setMessage("Hãy chọn ID cho card của bạn ");
-        final ArrayList<Integer> finalIntegers = integers;
+        final ArrayList<Integer> finalIntegers = listShowId;
         builder.setNegativeButton(txtHoten.getText().toString() + finalIntegers.get(0).toString(), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
@@ -561,21 +569,17 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
         });
 
         builder.show();
-
+        Log.d("NguyenLong", ""+ listId.get(1));
 
     }
 
-    public ArrayList<Integer> randomNumber(){
-        ArrayList<Integer> integers=new ArrayList<>();
-        ArrayList<Integer> list = new ArrayList<Integer>();
-        for (int i=101; i<999; i++) {
-            list.add(new Integer(i));
+    public ArrayList<Integer> randomNumber(ArrayList<Integer> integers){
+        Collections.shuffle(integers);
+        ArrayList<Integer> arrayList=new ArrayList<>();
+        for(int i=0; i<3;i++){
+            arrayList.add(integers.get(i));
         }
-        Collections.shuffle(list);
-        for (int i=0; i<3; i++) {
-            integers.add(list.get(i));
-        }
-        return integers;
+        return arrayList;
     }
 
     public boolean checkInterges(ArrayList<Integer> a, ArrayList<Integer> b){
@@ -835,20 +839,20 @@ public class Fragment_FormPreview extends Fragment implements View.OnTouchListen
                 layoutParams.topMargin = Y - _yDelta;
                 layoutParams.rightMargin = -250;
                 layoutParams.bottomMargin = -250;
-
-                if (Y-_yDelta<=0){
-                    layoutParams.topMargin=0;
-                }
-                if(Y+(v13.getHeight()-_yDelta)>=RELATIVE_MARGIN_TOP){
-                    layoutParams.topMargin=RELATIVE_MARGIN_TOP-v13.getHeight();
-                }
-                if(X-_xDelta<=0){
-                    layoutParams.leftMargin=0;
-                }
-                if(X+(v13.getWidth()-_xDelta)>=RELATIVE_MARGIN_LEFT){
-                    layoutParams.leftMargin=RELATIVE_MARGIN_LEFT-v13.getWidth();
-                }
-//                        Toast.makeText(getActivity(), ""+z, Toast.LENGTH_SHORT).show();
+//
+//                if (Y-_yDelta<=0){
+//                    layoutParams.topMargin=0;
+//                }
+//                if(Y+(v13.getHeight()-_yDelta)>=v.getHeight()){
+//                    layoutParams.topMargin=v.getHeight()-v13.getHeight();
+//                }
+//                if(X-_xDelta<=0){
+//                    layoutParams.leftMargin=0;
+//                }
+//                if(X+(v13.getWidth()-_xDelta)>=v.getWidth()){
+//                    layoutParams.leftMargin=v.getWidth()-v13.getWidth();
+//                }
+////                        Toast.makeText(getActivity(), ""+z, Toast.LENGTH_SHORT).show();
                 v13.setLayoutParams(layoutParams);
                 break;
         }

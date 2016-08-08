@@ -77,7 +77,6 @@ public class FragmentMain extends android.app.Fragment {
         myFirebaseRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
                 Map<String,Object> map=dataSnapshot.getValue(Map.class);
                 if(map.get("card_name").toString().toLowerCase().contains(nameCard) || map.get("card_id").toString().contains(nameCard)){
                     Data_Info data_info=new Data_Info(map.get("card_id").toString(), map.get("card_name").toString(), map.get("card_congty").toString(),

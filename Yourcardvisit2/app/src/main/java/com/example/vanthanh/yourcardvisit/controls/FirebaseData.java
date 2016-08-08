@@ -237,5 +237,39 @@ public class FirebaseData {
         });
     }
 
+    public static ArrayList<Integer> getIDall(){
+
+        final ArrayList<Integer> integers=new ArrayList<>();
+        final Firebase myFirebaseRef = new Firebase(StaticValues.LINKROOT+StaticValues.CHILD_KEYID);
+        myFirebaseRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Integer integer=Integer.parseInt(dataSnapshot.getValue().toString());
+                integers.add(integer);
+                Log.d("NguyenLong", ""+integers.size());
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+        return integers;
+    }
 
 }
